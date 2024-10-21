@@ -1,4 +1,5 @@
-Spotify Clone-JS /n
+Spotify Clone-JS
+
 Visit: 
 ## Features
 ```
