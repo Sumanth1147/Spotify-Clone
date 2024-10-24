@@ -2,6 +2,7 @@ console.log('Lets write JavaScript');
 let currentSong = new Audio();
 let songs;
 let currFolder;
+let previousVolume = currentSong.volume; // Store the previous volume before muting
 
 function secondsToMinutesSeconds(seconds) {
     if (isNaN(seconds) || seconds < 0) {
@@ -74,7 +75,6 @@ const playMusic = (track, pause = false) => {
     }
     document.querySelector(".songinfo").innerHTML = decodeURI(track)
     document.querySelector(".songtime").innerHTML = "00:00 / 00:00"
-
 }
 
 async function displayAlbums() {
@@ -191,6 +191,17 @@ async function main() {
         }
     })
 
+    // Add an event listener for song end
+    currentSong.addEventListener("ended", () => {
+        let index = songs.indexOf(currentSong.src.split("/").slice(-1)[0]);
+        if ((index + 1) < songs.length) {
+            playMusic(songs[index + 1]); // Play the next song
+        } else {
+            // If it's the last song, loop back to the first one
+            playMusic(songs[0]);
+        }
+    });
+
     // Add an event to volume
     document.querySelector(".range").getElementsByTagName("input")[0].addEventListener("change", (e) => {
         console.log("Setting volume to", e.target.value, "/ 100")
@@ -201,19 +212,20 @@ async function main() {
     })
 
     // Add event listener to mute the track
-    document.querySelector(".volume>img").addEventListener("click", e=>{ 
-        if(e.target.src.includes("volume.svg")){
-            e.target.src = e.target.src.replace("volume.svg", "mute.svg")
+    document.querySelector(".volume>img").addEventListener("click", e => {
+        if (e.target.src.includes("volume.svg")) {
+            // Mute the song and store the current volume
+            e.target.src = e.target.src.replace("volume.svg", "mute.svg");
+            previousVolume = currentSong.volume; // Save the current volume before muting
             currentSong.volume = 0;
             document.querySelector(".range").getElementsByTagName("input")[0].value = 0;
+        } else {
+            // Unmute and restore the previous volume
+            e.target.src = e.target.src.replace("mute.svg", "volume.svg");
+            currentSong.volume = previousVolume; // Restore the saved volume
+            document.querySelector(".range").getElementsByTagName("input")[0].value = previousVolume * 100; // Update the volume slider
         }
-        else{
-            e.target.src = e.target.src.replace("mute.svg", "volume.svg")
-            currentSong.volume = .10;
-            document.querySelector(".range").getElementsByTagName("input")[0].value = 10;
-        }
-
-    })
+    });
 
 
 
