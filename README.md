@@ -7,6 +7,8 @@ Visit:
 -playlist
 -next, previous controls, volume controls, song controls
 -song duration, song list ...
+-autoplay next song when current song ends
+-loop through the playlist after last song in the playlist ends
 ```
 
 ![image](https://github.com/user-attachments/assets/7ec13b11-4030-46dc-84e6-ef735523e55b)
