@@ -5,7 +5,7 @@ Visit:
 ```
 -responsive UI
 -playlist
--next, previous controls, volume controls, song controls
+-next, previous controls, volume controls, song controls, mute support
 -song duration, song list ...
 -autoplay next song when current song ends
 -loop through the playlist after last song in the playlist ends
